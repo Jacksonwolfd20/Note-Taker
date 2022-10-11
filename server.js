@@ -1,22 +1,16 @@
-// Dependencies
-const express = require('express');
-const ApiRoutes = require('./routes/ApiRoutes');
-const NoteRoutes = require('./routes/NoteRoutes');
-const app = express();
+var express = require("express");
 
-// Set PORT
-const PORT = process.env.PORT || 3001;
+var app = express();
 
-// Middleware
+var PORT = process.env.PORT || 3001;
+
+app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
+require("./routes/ApiRoutes")(app);
+require("./routes/HtmlRoutes")(app);
 
-app.use('/api', ApiRoutes);
-app.use('/notes', NoteRoutes);
-
-// Listener
-app.listen(PORT, () => {
-    console.log(`API server is ready on port ${PORT}!`);
+app.listen(PORT, function() {
+    console.log("App listening on PORT: " + PORT);
 });
